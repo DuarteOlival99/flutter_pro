@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'home.dart';
-import 'models/product.dart';
+import 'models/ProductEdit.dart';
 
-class ProductAddPage extends StatefulWidget {
-  static String tag = 'page-item-add';
+class ProductEditPage extends StatefulWidget {
+  static String tag = 'page-item-edit';
 
   @override
-  _ProductAddPageState createState() => _ProductAddPageState();
+  _ProductEditPageState createState() => _ProductEditPageState();
 }
 
-class _ProductAddPageState extends State<ProductAddPage> {
+class _ProductEditPageState extends State<ProductEditPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _cName = TextEditingController();
   final TextEditingController _cDescription = TextEditingController();
@@ -22,13 +22,17 @@ class _ProductAddPageState extends State<ProductAddPage> {
   final TextEditingController _cQtd = TextEditingController();
   File imageFile;
   Future<File> image;
-  Product produto =
-      new Product(name: "ola", description: "ola", quantity: 2, price: 2.0);
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    List listProduct = ModalRoute.of(context).settings.arguments;
+    final ProductEdit args = ModalRoute.of(context).settings.arguments;
+    List listProduct = args.list;
+    int index = args.index;
+    _cName.text = listProduct[index].name;
+    _cDescription.text = listProduct[index].description;
+    _cValor.text = listProduct[index].price.toString();
+    _cQtd.text = listProduct[index].quantity.toString();
 
     final inputName = TextFormField(
       controller: _cName,
@@ -94,15 +98,14 @@ class _ProductAddPageState extends State<ProductAddPage> {
 
     void adicionaLista(
         String name, String descricao, int quantidade, double preco) {
-      Product product = new Product(
-          name: name,
-          description: descricao,
-          price: preco,
-          quantity: quantidade);
       if (image != null) {
-        product.imageFile = image;
+        listProduct[index].imageFile = image;
       }
-      listProduct.add(product);
+
+      listProduct[index].name = name;
+      listProduct[index].description = descricao;
+      listProduct[index].quantity = quantidade;
+      listProduct[index].price = preco;
     }
 
     //Open gallery
@@ -130,7 +133,7 @@ class _ProductAddPageState extends State<ProductAddPage> {
             );
           } else {
             return const Text(
-              'Imagem predefinida carregada',
+              '',
               textAlign: TextAlign.center,
             );
           }
@@ -185,8 +188,8 @@ class _ProductAddPageState extends State<ProductAddPage> {
                     ),
                     RaisedButton(
                       color: Colors.redAccent,
-                      child: Text('Adicionar',
-                          style: TextStyle(color: Colors.white)),
+                      child:
+                          Text('Editar', style: TextStyle(color: Colors.white)),
                       padding: EdgeInsets.only(left: 50, right: 50),
                       onPressed: () {
                         adicionaLista(_cName.text, _cDescription.text,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterpro/product-edit.dart';
 
 import 'home.dart';
 import 'item-add.dart';
@@ -9,7 +10,8 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   final routes = <String, WidgetBuilder>{
     HomePage.tag: (context) => HomePage(),
-    ItemAddPage.tag: (context) => ItemAddPage(),
+    ProductAddPage.tag: (context) => ProductAddPage(),
+    ProductEditPage.tag: (context) => ProductEditPage(),
   };
 
   @override

@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterpro/product-edit.dart';
 
 import 'item-add.dart';
+import 'models/ProductEdit.dart';
 import 'models/product.dart';
 
 class HomePage extends StatefulWidget {
@@ -77,7 +79,7 @@ class HomePageState extends State<HomePage> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ItemAddPage(),
+                      builder: (context) => ProductAddPage(),
                       settings: RouteSettings(
                         arguments: list,
                       )));
@@ -280,12 +282,12 @@ class HomePageState extends State<HomePage> {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  content:
-                      Text("Are you sure you want to delete ${product.name}?"),
+                  content: Text(
+                      "Tem a certeza que pretende apagar o produto ${product.name}?"),
                   actions: <Widget>[
                     FlatButton(
                       child: Text(
-                        "Cancel",
+                        "Cancelar",
                         style: TextStyle(color: Colors.black),
                       ),
                       onPressed: () {
@@ -294,7 +296,7 @@ class HomePageState extends State<HomePage> {
                     ),
                     FlatButton(
                       child: Text(
-                        "Delete",
+                        "Apagar",
                         style: TextStyle(color: Colors.red),
                       ),
                       onPressed: () {
@@ -329,6 +331,7 @@ class HomePageState extends State<HomePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
+                      Container(),
                       ButtonBar(
                           mainAxisSize: MainAxisSize
                               .min, // this will take space as minimum as posible(to center)
@@ -337,6 +340,23 @@ class HomePageState extends State<HomePage> {
                               product.name,
                               style: new TextStyle(fontSize: 30),
                             ),
+                            IconButton(
+                              icon: Icon(
+                                Icons.edit,
+                                color: Colors.blue,
+                              ),
+                              onPressed: () {
+                                // Abre tela para criar item de lista
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ProductEditPage(),
+                                        settings: RouteSettings(
+                                          arguments: ProductEdit(
+                                              list: list, index: index),
+                                        )));
+                              },
+                            )
                           ]),
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 3, 0, 3),
